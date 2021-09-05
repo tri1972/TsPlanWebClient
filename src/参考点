@@ -1,0 +1,13 @@
+Angular アプリの構成をみる
+https://qiita.com/ksh-fthr/items/d040cf8b2d15bd7e507d
+
+上記についてはangularの基礎的な構成についてが参考になる
+
+Angular Material HP
+https://material.angular.io/
+
+Angular に Bootstrap4 を導入する
+https://qiita.com/tomy0610/items/551ba00dc6c53a1df9fb
+
+[Angular] ライフサイクルメソッドをみる(ngOnChanges と ngOnInit と ngOnDestroy)
+https://qiita.com/ksh-fthr/items/ccd9861f919c4aa30ae8
