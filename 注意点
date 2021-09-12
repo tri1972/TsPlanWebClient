@@ -1,3 +1,8 @@
+・githubへのTortoisegitによるPushについて
+push時にURLを下記のものと設定する必要がある
+https://tri1972:<ここにpersonal access tokenをいれる>@github.com/tri1972/TsPlanWebClient.git
+
+
 ・参考Url
 https://www.tohoho-web.com/ex/angular.html
 
