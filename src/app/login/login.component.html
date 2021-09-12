@@ -1,0 +1,41 @@
+<mat-card class="login-card">
+    <mat-card-header>
+        <mat-card-title class="login-title">ユーザー名とパスワードを入力してボタンを押してください</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form class="login-form"  [formGroup]="loginForm"  (keydown.enter)="$event.preventDefault()" autocomplete="off">
+        
+            <mat-form-field>
+                <mat-label>ユーザー名</mat-label>
+                <input matInput formControlName="user" required />
+                <!-- <mat-error *ngIf="loginForm.controls.user.invalid">ユーザー名を空白にはできません</mat-error> -->
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>パスワード</mat-label>
+                <input matInput [type]="blnPassVisible ? 'password' : 'text'" formControlName="password" required>
+                <mat-icon class="pointer" matSuffix (click)="blnPassVisible = !blnPassVisible">{{blnPassVisible ?
+                    'visibility' : 'visibility_off'}}</mat-icon>
+                <!-- <mat-error *ngIf="loginForm.controls.password.invalid">パスワードを空白にはできません</mat-error> -->
+            </mat-form-field>
+            <!-- loginFormのinvalidプロパティに各項目のバリデーションの総合結果が自動的に入ります -->
+            <!-- タグ内でrequiredを設定することで、ふたつの項目のうちどちらかが空白ならボタンを押せない仕組みにしています  -->
+            <button type="button" mat-raised-button color="primary" [disabled]="loginForm.invalid"
+                (click)="login()">ログイン</button>
+        </form>
+    </mat-card-content>
+    <mat-card-footer>
+        <mat-error *ngIf="0 < errors.length">
+            <ul>
+                <li *ngFor="let error of errors">{{error}}</li>
+            </ul>
+        </mat-error>
+    </mat-card-footer>
+</mat-card>
+<!-- 処理中の画面 -->
+<div *ngIf="blnLoading" class="loading">
+    <div class="loading-inner">
+        <mat-spinner></mat-spinner>
+        {{strLoadingMsg}}
+    </div>
+</div>

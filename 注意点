@@ -29,3 +29,24 @@ chromeでlocalhostにアクセスできない場合
 参考url　https://qiita.com/hiraski/items/a399e5bb303124ff4cab
 
 
+Angular Maqterial
+
+インストール方法
+
+使い方
+app.module.ts（それか、このプロジェクトではこのモジュールよりmaterial.module.tsを分離している）
+にimport
+
+
+import { MatInputModule } from '@angular/material/input';
+
+また、Exportも行う
+
+
+  exports:[
+    MatSliderModule,
+
+注意点
+mat-iconを使用する場合、以下のUrlをindex.htmlに貼り付ける必要がある 
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">

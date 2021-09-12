@@ -1,9 +1,17 @@
 //Angular Material登録用module
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSliderModule } from '@angular/material/slider';
-import {MatButtonModule} from '@angular/material/button';
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
 
 
 
@@ -13,9 +21,17 @@ import {MatButtonModule} from '@angular/material/button';
     CommonModule,
   ],
   exports:[
-    MatToolbarModule,
     MatSliderModule,
+    
     MatButtonModule,
+    MatListModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatCardModule,
+    MatInputModule,
   ]
 })
 export class MaterialModule { }
