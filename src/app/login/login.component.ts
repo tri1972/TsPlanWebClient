@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder }  from '@angular/forms';
-import {FormsModule,ReactiveFormsModule} from '@angular/forms';
-import { LoginUser } from '../interfaces/login-user';
-import { AuthParam } from '../interfaces/auth-param';
-import { LoginService } from '../login.service';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoginUser } from '../login_service/interfaces/login-user';
+import { AuthParam } from '../login_service/interfaces/auth-param';
+import { LoginService } from '../login_service/login.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -13,7 +13,6 @@ import { Observable } from 'rxjs';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
 
   title = "ログインページ";
 
@@ -56,7 +55,7 @@ export class LoginComponent implements OnInit {
     }
 
     //サービスからObservableを取得
-    const user: Observable<LoginUser> = this.loginService.login(this.loginForm.value.user, this.loginForm.value.password);
+    const user: Observable<any> = this.loginService.login(this.loginForm.value.user, this.loginForm.value.password);
 
 
     //Wait画面の表示
@@ -64,7 +63,20 @@ export class LoginComponent implements OnInit {
 
     //処理実行
     user.subscribe(
-      (loginUser: LoginUser) => {
+      (auth) => {
+        let loginUser: LoginUser
+          = {
+          user: this.loginForm.value.user,
+          login: false,
+        }
+
+        if (auth.token != undefined) {
+          loginUser.login = true;
+
+        } else {
+          loginUser.login = false;
+        }
+        let token = auth.token;
         //Wait画面を消す
         this.blnLoading = false;
 
@@ -77,7 +89,7 @@ export class LoginComponent implements OnInit {
         } else {
           //認証失敗時はローカルストレージのデータもクリアします。
           localStorage.removeItem('token');
-          this.errors.push("ユーザーIDまたはパスワードが不正です");
+          this.errors.push("Tokenが取得できませんでした");
         }
       },
       (error) => {
@@ -87,9 +99,15 @@ export class LoginComponent implements OnInit {
         //Wait画面を消す
         this.blnLoading = false;
 
-        console.log(error);
+        if(error="User name or password is incorrect." ){
+          //認証失敗時はローカルストレージのデータもクリアします。
+          localStorage.removeItem('token');
+          this.errors.push("ユーザーIDまたはパスワードが不正です");
+        }else{
+          console.log(error);
+          this.errors.push("通信エラーが発生しました");
 
-        this.errors.push("通信エラーが発生しました");
+        }
       }
     );
   }
