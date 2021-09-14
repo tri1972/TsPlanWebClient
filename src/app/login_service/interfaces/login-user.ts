@@ -1,4 +1,4 @@
 export interface LoginUser {
-    user: string;
-    login: boolean;
+    user: string;//ユーザー
+    login: boolean;//認証OK/NG
 }
