@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
 
-    //ActivatedRouteを使ってログイン成功時の移動先を取得します。
+    //ActivatedRouteを使ってログイン成功時の移動先を取得します
     if (this.route.snapshot.queryParams.hasOwnProperty('url')) {
       this.strNextPage = this.route.snapshot.queryParams.url;
     } else {
