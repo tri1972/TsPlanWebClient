@@ -55,3 +55,31 @@ import { MatInputModule } from '@angular/material/input';
 mat-iconを使用する場合、以下のUrlをindex.htmlに貼り付ける必要がある 
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
+
+StaticWebAppのDeployに失敗する場合
+以下のようなエラーが出る
+
+PHP executable: /tmp/oryx/platforms/php/7.3.27/bin/php
+No 'composer.json' file found; not running 'composer install'.
+Preparing output...
+
+Copying files to destination directory '/bin/staticsites/ss-oryx/app'...
+Done in 0 sec(s).
+
+Removing existing manifest file
+Creating a manifest file...
+Manifest file created.
+
+Done in 1 sec(s).
+
+
+---End of Oryx build logs---
+The app build failed to produce artifact folder: 'dist'. Please ensure this property is configured correctly in your workflow file.
+
+For further information, please visit the Azure Static Web Apps documentation at https://docs.microsoft.com/en-us/azure/static-web-apps/
+If you believe this behavior is unexpected, please raise a GitHub issue at https://github.com/azure/static-web-apps/issues/
+Exiting
+
+上記を見る限り、コード中に.phpファイルを混ぜるとphp実行の為の設定ファイルが必要となり、
+これが原因でDeployに失敗するよう
+よって、必要がなかったphpファイルを削除し対応
