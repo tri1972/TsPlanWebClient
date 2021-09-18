@@ -1,4 +1,4 @@
-・githubへのTortoisegitによるPushについて
+'githubへのTortoisegitによるPushについて'
 push時にURLを下記のものと設定する必要がある
 https://tri1972:<ここにpersonal access tokenをいれる>@github.com/tri1972/TsPlanWebClient.git
 
@@ -6,16 +6,16 @@ https://tri1972:<ここにpersonal access tokenをいれる>@github.com/tri1972/
 ・参考Url
 https://www.tohoho-web.com/ex/angular.html
 
-・Angularのテストモジュール生成
+'Angularのテストモジュール生成'
 $ ng new <モジュール名>
 ? Would you like to add Angular routing? (y/N) y
 ? Which stylesheet format would you like to use? CSS	# カーソル移動キーで選択してEnter
 
-Angularのサーバー起動
+'Angularのサーバー起動'
 $ cd my-app
 $ ng serve --host 0.0.0.0 --port 8080
 
-Angularのデバッガ実行
+'Angularのデバッガ実行'
 デバッガの設定は
 lanunch.jsonで設定している
 
@@ -23,18 +23,18 @@ $ cd my-app
 $ ng serve --host 0.0.0.0 --port 4200
 を実行しておく
 
-デバッガの自動実行（F5を押すと始まる）
+'デバッガの自動実行（F5を押すと始まる）'
 については以下のページを参照
 https://qiita.com/amay077/items/62e1eb656fbd730b3dd1
 
-コンポーネントの追加
+'Angularコンポーネントの追加'
 $ ng generate component <コンポーネント名>
 
-chromeでlocalhostにアクセスできない場合
+'chromeでlocalhostにアクセスできない場合'
 参考url　https://qiita.com/hiraski/items/a399e5bb303124ff4cab
 
 
-Angular Maqterial
+'Angular Maqterial'
 
 インストール方法
 
@@ -56,7 +56,7 @@ mat-iconを使用する場合、以下のUrlをindex.htmlに貼り付ける必�
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
 
-StaticWebAppのDeployに失敗する場合
+'StaticWebAppのDeployに失敗する場合_その1'
 以下のようなエラーが出る
 
 PHP executable: /tmp/oryx/platforms/php/7.3.27/bin/php
@@ -83,3 +83,50 @@ Exiting
 上記を見る限り、コード中に.phpファイルを混ぜるとphp実行の為の設定ファイルが必要となり、
 これが原因でDeployに失敗するよう
 よって、必要がなかったphpファイルを削除し対応
+
+
+'StaticWebAppのDeployに失敗する場合_その2'
+ビルド途中で以下のエラーが出る場合
+---Oryx build logs---
+
+
+Operation performed by Microsoft Oryx, https://github.com/Microsoft/Oryx
+You can report issues at https://github.com/Microsoft/Oryx/issues
+
+Oryx Version: 0.2.20210410.1, Commit: e73613ae1fd73c809c00f357f8df91eb984e1158, ReleaseTagName: 20210410.1
+
+Build Operation ID: |yyRm5aPuiv0=.be0b881d_
+Repository Commit : 944e9165fa171e4a61c9f43a497c37f7f401cdcf
+
+Detecting platforms...
+Could not detect any platform in the source directory.
+Error: Could not detect the language from repo.
+
+上記のエラーはコードがあるパスが間違っている
+workflowの.ymlファイルのapp_locationに/srcフォルダがあるパスを記載する
+(.githubフォルダの一つ下がルートとしたパス)
+
+          ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
+          # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
+          app_location: "" # App source code path
+          api_location: "" # Api source code path - optional
+          output_location: "dist/TsPlanWebClient" # Built app content directory - optional
+          ###### End of Repository/Build Configurations ######
+
+
+'StaticWebAppのDeployに失敗する場合_その3'
+---End of Oryx build logs---
+Finished building app with Oryx
+Failed to find a default file in the app artifacts folder (dist). Valid default files: index.html,Index.html.
+If your application contains purely static content, please verify that the variable 'app_location' in your workflow file points to the root of your application.
+If your application requires build steps, please validate that a default file exists in the build output directory.
+
+上記のようなエラーが出る場合は、アプリケーションのルートとなるフォルダのパスが間違っている
+workflowの.ymlファイルのoutput_locationにパスの位置を記述する・・・
+
+のであるが、これが非常にわかりづらい
+手がかりとして
+>ng serve
+を実行すると、ローカルでビルドが実行され。(参考:https://angular.jp/start/start-deployment)
+アプリケーションのルートとなる箇所に'dist/<アプリケーション名>'で出力される。
+このパスをアプリケーションのパスとすればよいのかもしれない
