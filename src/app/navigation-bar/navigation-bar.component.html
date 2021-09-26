@@ -17,49 +17,7 @@
             <mat-icon>share</mat-icon>
         </button>
     </mat-toolbar>
-    <!--
-    <mat-toolbar color="primary">
-        <button mat-icon-button class="example-icon" id="hunburgerButton" (click)="sidenav.toggle()"
-            aria-label="Example icon-button with menu icon">
-            <mat-icon>menu</mat-icon>
-        </button>
-        <span>
-            <h1 class="example-app-name">Responsive App</h1>
-        </span>
-        <span class="example-spacer"></span>
-        <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-            <mat-icon>favorite</mat-icon>
-        </button>
-        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-            <mat-icon>share</mat-icon>
-        </button>
-    </mat-toolbar>
-    -->
-
-
     <!--サイドメニュー-->
-    
-    <!--
-    <mat-drawer-container class="example-container" drawer >
-        <mat-drawer #drawer class="example-sidenav" mode="side">
-            <p>Auto-resizing sidenav</p>
-            <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
-            <button (click)="showFiller = !showFiller" mat-raised-button>
-                Toggle extra text
-            </button>
-        </mat-drawer>
-
-        <div class="example-sidenav-content">
-            <button type="button" mat-button (click)="drawer.toggle()">
-                Toggle sidenav
-            </button>
-        </div>
-
-    </mat-drawer-container>
-
-
-    
-    -->
     <mat-sidenav-container class="example-sidenav-container">
         <mat-sidenav #drawer>
             <mat-nav-list>
@@ -69,10 +27,16 @@
                 <a mat-list-item routerLink=".">設定</a>
             </mat-nav-list>
         </mat-sidenav>
-        <mat-sidenav-content >
-            <mat-form-field class="sidenav-content" appearance="outline" >
+        <mat-sidenav-content>
+            <!--サイドメニューのコンテンツ-->
+            <!--Change size of textarea 参考　https://stackoverflow.com/questions/47147507/change-size-of-textarea-->
+            <mat-form-field class="sidenav-content" appearance="outline">
                 <mat-label>Textarea</mat-label>
-                <textarea matInput class="textarea-content"></textarea>
+                <textarea 
+                matInput
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="40"
+                cdkAutosizeMaxRows="40"></textarea>
             </mat-form-field>
         </mat-sidenav-content>
     </mat-sidenav-container>

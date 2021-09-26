@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LoginUser } from '../login_service/interfaces/login-user';
-import { AuthParam } from '../login_service/interfaces/auth-param';
-import { LoginService } from '../login_service/login.service';
+import { LoginUser } from '../service/login/interfaces/login-user';
+import { AuthParam } from '../service/login/interfaces/auth-param';
+import { LoginService } from '../service/login/login.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import applConfig from '../../ApplicationConfig.json'
+
 
 @Component({
   selector: 'app-login',
@@ -81,8 +83,9 @@ export class LoginComponent implements OnInit {
         this.blnLoading = false;
 
         if (loginUser.login) {
-          //ログインの有効期限をlocalStorageにセットします。
-          localStorage.setItem('token', String(Date.now() + 60 * 60 * 1000));
+          //ログインの有効期限をlocalStorageにセットします。loginTokenLimit
+          var test=applConfig.loginTokenLimit ;
+          localStorage.setItem('token', String(Date.now() + applConfig.loginTokenLimit * 1000));
 
           //ログインページを呼び出した元へ戻る
           this.router.navigateByUrl(this.strNextPage);

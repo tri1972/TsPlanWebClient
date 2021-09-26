@@ -5,7 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { GuardNameGuard } from './guard-name.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login-page', pathMatch: 'full' },
+  { path: '', redirectTo: '/main', pathMatch: 'full' },
   { path: 'main', component: MainComponent, canActivate: [GuardNameGuard] },
   { path: 'login-page', component: LoginComponent }
 ];

@@ -4,7 +4,7 @@ import { LoginUser } from './interfaces/login-user';
 import { AuthParam } from './interfaces/auth-param';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as shajs from 'sha.js';
-import { AccountService, Configuration, RegisterAccount, TsService } from '../tsplanApi';
+import { AccountService, Configuration, RegisterAccount, TsService } from '../../tsplanApi';
 
 @Injectable({
   providedIn: 'root'

@@ -1,0 +1,4 @@
+{    
+    "loginTokenLimit": 3600,
+    "rootPath": "main"
+}
