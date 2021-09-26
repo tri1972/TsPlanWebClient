@@ -29,7 +29,7 @@ https://qiita.com/amay077/items/62e1eb656fbd730b3dd1
 
 'Angularコンポーネントの追加'
 $ ng generate component <コンポーネント名>
-
+$ ng generate component <コンポーネント名> --skip-import
 'chromeでlocalhostにアクセスできない場合'
 参考url　https://qiita.com/hiraski/items/a399e5bb303124ff4cab
 
