@@ -1,43 +1,56 @@
-<!--ナビゲーションバー　参考url https://programming-jissen.com/how-to-implement-side-menu-in-angular-material/ -->
-<div class="example-container">
-    <!--上部メニュー-->
-    <mat-toolbar color="primary">
-        <button mat-icon-button class="example-icon" id="hunburgerButton" (click)="drawer.toggle()"
-            aria-label="Example icon-button with menu icon">
-            <mat-icon>menu</mat-icon>
+<div class="main-div">
+<!--ヘッダーメニューの設定-->
+  <mat-toolbar color="primary" class="app-header">
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Config</span>
+    <span class="spacer"></span>
+    <button mat-icon-button>
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <span>Admin</span>
+    <span class="example-spacer"></span>
+    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+        <mat-icon>favorite</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+        <mat-icon>share</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <!--サイドメニュー-->
+  <mat-drawer-container class="sidenav-container">
+    <mat-drawer #sidenav mode="side" opened="true" class="sidenav-drawer" fixedInViewport="false">
+      <p>Auto-resizing sidenav</p>
+      <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
+      <button (click)="showFiller = !showFiller" mat-raised-button>
+        Toggle extra text
+      </button>
+      <mat-list>
+        <mat-list-item>
+          <mat-icon matListIcon>people</mat-icon>Users
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon matListIcon>devices_other</mat-icon>Devices
+        </mat-list-item>
+      </mat-list>
+    </mat-drawer>
+
+    <div class="example-sidenav-content">
+      <!--サイドメニューのコンテンツ-->
+      <!--Change size of textarea 参考　https://stackoverflow.com/questions/47147507/change-size-of-textarea-->
+      <mat-form-field class="sidenav-content" appearance="outline">
+        <mat-label>Textarea</mat-label>
+        <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="40" cdkAutosizeMaxRows="40"></textarea>
+      </mat-form-field>
+      <!--
+      <p style="margin:20px">
+        <button type="button" mat-button (click)="sidenav.toggle()">
+          Toggle sidenav
         </button>
-        <span>
-            <h1 class="example-app-name">Responsive App</h1>
-        </span>
-        <span class="example-spacer"></span>
-        <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-            <mat-icon>favorite</mat-icon>
-        </button>
-        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-            <mat-icon>share</mat-icon>
-        </button>
-    </mat-toolbar>
-    <!--サイドメニュー-->
-    <mat-sidenav-container class="example-sidenav-container">
-        <mat-sidenav #drawer>
-            <mat-nav-list>
-                <a mat-list-item routerLink=".">メニュー1</a>
-                <a mat-list-item routerLink=".">メニュー2</a>
-                <a mat-list-item routerLink=".">よくある質問</a>
-                <a mat-list-item routerLink=".">設定</a>
-            </mat-nav-list>
-        </mat-sidenav>
-        <mat-sidenav-content>
-            <!--サイドメニューのコンテンツ-->
-            <!--Change size of textarea 参考　https://stackoverflow.com/questions/47147507/change-size-of-textarea-->
-            <mat-form-field class="sidenav-content" appearance="outline">
-                <mat-label>Textarea</mat-label>
-                <textarea 
-                matInput
-                cdkTextareaAutosize
-                cdkAutosizeMinRows="40"
-                cdkAutosizeMaxRows="40"></textarea>
-            </mat-form-field>
-        </mat-sidenav-content>
-    </mat-sidenav-container>
+      </p>
+      -->
+    </div>
+  </mat-drawer-container>
 </div>
