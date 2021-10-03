@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { observable, Observable } from 'rxjs';
 import { LoginUser } from './interfaces/login-user';
-import { AuthParam } from './interfaces/auth-param';
+import { AuthParam } from '../auth-param';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as shajs from 'sha.js';
 import { AccountService, Configuration, RegisterAccount, TsService } from '../../tsplanApi';
@@ -58,5 +58,7 @@ export class LoginService {
     return auth;
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+
+  }
 }

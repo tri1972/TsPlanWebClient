@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginUser } from '../service/login/interfaces/login-user';
-import { AuthParam } from '../service/login/interfaces/auth-param';
+import { AuthParam } from '../service/auth-param';
 import { LoginService } from '../service/login/login.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import applConfig from '../../ApplicationConfig.json'
+import { AccountDataService} from '../service/accoutData/account-data.service'
 
 
 @Component({
@@ -30,7 +31,11 @@ export class LoginComponent implements OnInit {
     password: [''],
   });
 
-  constructor(private router: Router, private route: ActivatedRoute, private loginService: LoginService, private fb: FormBuilder) { }
+  constructor(private router: Router, 
+    private route: ActivatedRoute, 
+    private loginService: LoginService, 
+    private fb: FormBuilder,
+    private accountService:AccountDataService) { }
 
   ngOnInit(): void {
 
@@ -85,13 +90,17 @@ export class LoginComponent implements OnInit {
         if (loginUser.login) {
           //ログインの有効期限をlocalStorageにセットします。loginTokenLimit
           var test=applConfig.loginTokenLimit ;
-          localStorage.setItem('token', String(Date.now() + applConfig.loginTokenLimit * 1000));
+          localStorage.setItem('tokenlimit', String(Date.now() + applConfig.loginTokenLimit * 1000));
+          localStorage.setItem('user',loginUser.user);
+          localStorage.setItem('token',token);
 
+          this.accountService.setId(loginUser.user);
+          this.accountService.setToken(token);
           //ログインページを呼び出した元へ戻る
           this.router.navigateByUrl(this.strNextPage);
         } else {
           //認証失敗時はローカルストレージのデータもクリアします。
-          localStorage.removeItem('token');
+          localStorage.removeItem('tokenlimit');
           this.errors.push("Tokenが取得できませんでした");
         }
       },
@@ -104,7 +113,7 @@ export class LoginComponent implements OnInit {
 
         if(error="User name or password is incorrect." ){
           //認証失敗時はローカルストレージのデータもクリアします。
-          localStorage.removeItem('token');
+          localStorage.removeItem('tokenlimit');
           this.errors.push("ユーザーIDまたはパスワードが不正です");
         }else{
           console.log(error);

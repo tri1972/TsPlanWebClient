@@ -15,7 +15,7 @@ export class GuardNameGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean | UrlTree {
     //return false;
-    let limit: any = localStorage.getItem('token');//ここでlocalstrageよりaccount有効期限値を取得する
+    let limit: any = localStorage.getItem('tokenlimit');//ここでlocalstrageよりaccount有効期限値を取得する
     if (!isNaN(limit) && Date.now() < limit) {
       return true;//認証OK正常実行
     } else {
