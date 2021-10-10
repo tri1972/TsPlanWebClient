@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
 
   showFiller = false;
   isExpanded = false;
-
+  isHidden;
   user='test';
 
   sidenavOpened: boolean = true;
@@ -32,7 +32,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.handleResizeWindow(window.innerWidth);
     this.user  = localStorage.getItem('user');
-
   }
 
   /**

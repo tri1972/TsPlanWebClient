@@ -31,3 +31,9 @@ https://seedoftalk.blogspot.com/2021/02/angular-login.html
 Angular データ・バインディング
 https://angular.keicode.com/basics/data-binding.php
 
+プロパティ・バインディング
+プロパティ・バインディングは、 コンポーネントのプロパティからテンプレートの DOM 属性 (アトリビュート) に値を渡す方法です。
+htmlテンプレート側で
+<div [property]="property">
+という風に"[]"で囲まれたpropertyについては、実装側のproperty変数にバインディングされます
+
