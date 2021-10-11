@@ -1,4 +1,6 @@
 import { Component, OnInit,NgZone } from '@angular/core';
+import { nextTick } from 'process';
+import {RouterOutputService} from '../service/router-output/router-output.service'
 
 @Component({
   selector: 'app-main',
@@ -13,7 +15,7 @@ export class MainComponent implements OnInit {
   fontSize="8pt";
   lineHeight="1.2";
 
-  constructor(ngZone:NgZone) {
+  constructor(ngZone:NgZone,private routerService :RouterOutputService) {
     /*
     window.onresize = (e) => {
       ngZone.run(() => {
@@ -25,7 +27,7 @@ export class MainComponent implements OnInit {
    
   ngOnInit(): void {
     this.handleResizeWindow();
-    this.isHidden=true;
+    this.routerService.isHiddenTitleAndSideMenu.next(false);
   }
 
   handleResizeWindow(){

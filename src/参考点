@@ -37,3 +37,6 @@ htmlテンプレート側で
 <div [property]="property">
 という風に"[]"で囲まれたpropertyについては、実装側のproperty変数にバインディングされます
 
+Input,Outputを使う
+のバインディングについては親子関係のコンポーネントしか使えない
+また、router-outletの関係では親子関係にはならずこのバインディングは使えないこととなる
