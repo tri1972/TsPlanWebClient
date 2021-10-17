@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
     } else {
       this.strNextPage = "/home";
     }
-    this.routerService.isHiddenTitleAndSideMenu.next(true);
+    this.routerService.isHiddenTitleAndSideMenu.next(false);
   }
 
   login(): void {

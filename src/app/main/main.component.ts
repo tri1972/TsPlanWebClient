@@ -1,5 +1,4 @@
 import { Component, OnInit,NgZone } from '@angular/core';
-import { nextTick } from 'process';
 import {RouterOutputService} from '../service/router-output/router-output.service'
 import { MatDrawerMode } from '@angular/material/sidenav';
 import { Observable, Subscription } from 'rxjs';
@@ -22,23 +21,21 @@ export class MainComponent implements OnInit {
   sidenavOpened:boolean;
   showFiller = false;
 
-
+  //AppComponentとのバインディング用
   Obs:Observable<boolean>;
   Subs:Subscription;
 
   constructor(ngZone:NgZone,private routerService :RouterOutputService,private appComponetService:AppComponentOutputService) {
-    /*
     window.onresize = (e) => {
       ngZone.run(() => {
-        this.handleResizeWindow();
+        this.handleResizeWindow(window.innerWidth);
       })
     }
-    */
   }
    
   ngOnInit(): void {
-    this.handleResizeWindow();
-    this.routerService.isHiddenTitleAndSideMenu.next(false);
+    this.handleResizeWindow(window.innerWidth);
+    this.routerService.isHiddenTitleAndSideMenu.next(true);
 
     this.Obs =this.appComponetService.IsOpenSideNav$;
     this.Subs=this.Obs.subscribe(bool=>{
@@ -48,7 +45,19 @@ export class MainComponent implements OnInit {
     })
   }
 
-  handleResizeWindow(){
+  /**
+   * sideNavのmodeとOpenedを入力された画面幅より選択します 
+   * @param width 画面幅
+   */
+  handleResizeWindow(width: number){
+    if (800 < width) {
+      this.sidenavOpened = true;
+      this.sidenavMode = 'side';
+    } else {
+      this.sidenavOpened = false;
+      this.sidenavMode = 'over';
+    }
+
     let headerRow:number=this.rowNumberCalcByPixel(this.fontSize,this.lineHeight,200);
     this.MinRows=(this.rowNumberCalc(this.fontSize,this.lineHeight)-headerRow).toString();
     this.MaxRows=(this.rowNumberCalc(this.fontSize,this.lineHeight)-headerRow).toString();
@@ -77,8 +86,10 @@ export class MainComponent implements OnInit {
     let ptPerPx=72/96;
     return Math.floor( (ptPerPx*height)/Number(font));
   }
-  testtoggle(){
-    this.sidenavOpened=!this.sidenavOpened;
+  
+  ngOnDestroy() {
+    if (this.Subs) {
+      this.Subs.unsubscribe();
+    }
   }
-
 }

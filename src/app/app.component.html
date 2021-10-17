@@ -1,8 +1,8 @@
-<!--このファイルで起動時に表示するcomponentを記述する -->
-<div class="main-div"  [hidden]="!isHiddenMain">
+<!--このファイルで起動時に表示するcomponentを記述する <div class="main-div"  [hidden]="!isHiddenMenu">-->
+<div class="main-div"  [style.display]="isDisplayMenu">
   <!--ヘッダーメニューの設定-->
   <mat-toolbar color="primary" class="app-header">
-    <button mat-icon-button (click)="sidenav()">
+    <button mat-icon-button (click)="onClickMenuButton()">
       <mat-icon>menu</mat-icon>
     </button>
     <span>Config</span>
@@ -20,9 +20,5 @@
     </button>
   </mat-toolbar>
 </div>
+<!--Router切り替え用タグ-->
 <router-outlet></router-outlet>
-<!--
-<div class="login" [hidden]="!isHiddenLogin">
-  <router-outlet></router-outlet>
-</div>
--->

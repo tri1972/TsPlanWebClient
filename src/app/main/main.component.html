@@ -19,7 +19,6 @@
     </mat-drawer><!--サイドメニューのコンテンツ-->
     <!--Change size of textarea 参考　https://stackoverflow.com/questions/47147507/change-size-of-textarea-->
     <mat-form-field class="sidenav-content" appearance="outline">
-      <button mat-raised-button (click)="testtoggle()">Toggle drawer</button>
       <mat-label>Textarea</mat-label>
       <textarea class="contentText" [style.font-size]="fontSize" [style.line-height]="lineHeight"matInput cdkTextareaAutosize [cdkAutosizeMinRows]="MinRows" [cdkAutosizeMaxRows]="MaxRows"></textarea>
     </mat-form-field>
