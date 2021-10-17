@@ -4,6 +4,8 @@ import { Observable, Subscription } from 'rxjs';
 import {AccountDataService} from './service/accoutData/account-data.service';
 import {RouterOutputService} from './service/router-output/router-output.service'
 
+import {AppComponentOutputService} from './service/appComponent/app-component-output.service'
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,8 +16,8 @@ export class AppComponent implements OnInit {
 
   showFiller = false;
   isExpanded = false;
-  isHidden:boolean=true;
-  isHiddenTest:boolean;
+  isHiddenMain:boolean=true;
+  isHiddenLogin:boolean=false;
   user='test';
 
   sidenavOpened: boolean = true;
@@ -23,11 +25,13 @@ export class AppComponent implements OnInit {
   Obs:Observable<boolean>;
   Subs:Subscription;
 
+  isToggleSideNav:boolean=false;
+
   /**
    * コンストラクタ
    * @param ngZone 
    */
-  constructor(private ngZone: NgZone,private accountData:AccountDataService,private routerService:RouterOutputService) {
+  constructor(private ngZone: NgZone,private accountData:AccountDataService,private routerService:RouterOutputService,private appOutputServece:AppComponentOutputService) {
     window.onresize = (e) => {
       ngZone.run(() => {
         this.handleResizeWindow(window.innerWidth);
@@ -40,7 +44,13 @@ export class AppComponent implements OnInit {
     this.user  = localStorage.getItem('user');
     this.Obs =this.routerService.IsHiddenTitleAndSideMenu$;
     this.Subs=this.Obs.subscribe(bool=>{
-      this.isHidden=bool;
+      if(bool){
+        this.isHiddenLogin=true;
+        this.isHiddenMain=false;
+      }else{
+        this.isHiddenLogin=false;
+        this.isHiddenMain=true;
+      }
     })
   }
 
@@ -62,5 +72,11 @@ export class AppComponent implements OnInit {
     if (this.Subs) {
       this.Subs.unsubscribe();
     }
+  }
+
+  sidenav(){
+    this.isToggleSideNav=true;
+    this.appOutputServece.isOpenSideNav.next(this.isToggleSideNav);
+    this.isToggleSideNav=false;
   }
 }

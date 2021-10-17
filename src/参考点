@@ -40,3 +40,7 @@ htmlテンプレート側で
 Input,Outputを使う
 のバインディングについては親子関係のコンポーネントしか使えない
 また、router-outletの関係では親子関係にはならずこのバインディングは使えないこととなる
+
+sideNavigationのOnOffをhtmlだけで実装する方法をとるのではなく、（よく例には挙げられているがこの方法だと動的に実行するのは不可）
+コードを介してOnOffする方法
+https://stackoverflow.com/questions/58852134/how-to-toggle-angular-material-sidenav-in-component

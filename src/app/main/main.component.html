@@ -1,8 +1,26 @@
-<div class="example-sidenav-content">
-  <!--サイドメニューのコンテンツ-->
-  <!--Change size of textarea 参考　https://stackoverflow.com/questions/47147507/change-size-of-textarea-->
-  <mat-form-field class="sidenav-content" appearance="outline">
-    <mat-label>Textarea</mat-label>
-    <textarea class="contentText" [style.font-size]="fontSize" [style.line-height]="lineHeight"matInput cdkTextareaAutosize [cdkAutosizeMinRows]="MinRows" [cdkAutosizeMaxRows]="MaxRows"></textarea>
-  </mat-form-field>
-</div>
+
+
+  <!--サイドメニュー-->
+  <mat-drawer-container class="sidenav-container">
+    <mat-drawer #sidenav [mode]="sidenavMode" [opened]="sidenavOpened" class="sidenav-drawer" fixedInViewport="false">
+      <p>Auto-resizing sidenav</p>
+      <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
+      <button (click)="showFiller = !showFiller" mat-raised-button>
+        Toggle extra text
+      </button>
+      <mat-list>
+        <mat-list-item>
+          <mat-icon matListIcon>people</mat-icon>Users
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon matListIcon>devices_other</mat-icon>Devices
+        </mat-list-item>
+      </mat-list>
+    </mat-drawer><!--サイドメニューのコンテンツ-->
+    <!--Change size of textarea 参考　https://stackoverflow.com/questions/47147507/change-size-of-textarea-->
+    <mat-form-field class="sidenav-content" appearance="outline">
+      <button mat-raised-button (click)="testtoggle()">Toggle drawer</button>
+      <mat-label>Textarea</mat-label>
+      <textarea class="contentText" [style.font-size]="fontSize" [style.line-height]="lineHeight"matInput cdkTextareaAutosize [cdkAutosizeMinRows]="MinRows" [cdkAutosizeMaxRows]="MaxRows"></textarea>
+    </mat-form-field>
+  </mat-drawer-container>

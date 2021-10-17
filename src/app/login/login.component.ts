@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import applConfig from '../../ApplicationConfig.json'
 import { AccountDataService} from '../service/accoutData/account-data.service'
+import {RouterOutputService} from '../service/router-output/router-output.service'
 
 
 @Component({
@@ -35,7 +36,8 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute, 
     private loginService: LoginService, 
     private fb: FormBuilder,
-    private accountService:AccountDataService) { }
+    private accountService:AccountDataService,
+    private routerService :RouterOutputService) { }
 
   ngOnInit(): void {
 
@@ -45,6 +47,7 @@ export class LoginComponent implements OnInit {
     } else {
       this.strNextPage = "/home";
     }
+    this.routerService.isHiddenTitleAndSideMenu.next(true);
   }
 
   login(): void {

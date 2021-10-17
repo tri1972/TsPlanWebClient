@@ -1,6 +1,9 @@
 import { Component, OnInit,NgZone } from '@angular/core';
 import { nextTick } from 'process';
 import {RouterOutputService} from '../service/router-output/router-output.service'
+import { MatDrawerMode } from '@angular/material/sidenav';
+import { Observable, Subscription } from 'rxjs';
+import {AppComponentOutputService} from '../service/appComponent/app-component-output.service'
 
 @Component({
   selector: 'app-main',
@@ -15,7 +18,15 @@ export class MainComponent implements OnInit {
   fontSize="8pt";
   lineHeight="1.2";
 
-  constructor(ngZone:NgZone,private routerService :RouterOutputService) {
+  sidenavMode: MatDrawerMode= 'side';
+  sidenavOpened:boolean;
+  showFiller = false;
+
+
+  Obs:Observable<boolean>;
+  Subs:Subscription;
+
+  constructor(ngZone:NgZone,private routerService :RouterOutputService,private appComponetService:AppComponentOutputService) {
     /*
     window.onresize = (e) => {
       ngZone.run(() => {
@@ -28,6 +39,13 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
     this.handleResizeWindow();
     this.routerService.isHiddenTitleAndSideMenu.next(false);
+
+    this.Obs =this.appComponetService.IsOpenSideNav$;
+    this.Subs=this.Obs.subscribe(bool=>{
+      if(bool){
+        this.sidenavOpened=!this.sidenavOpened;
+      }
+    })
   }
 
   handleResizeWindow(){
@@ -59,6 +77,8 @@ export class MainComponent implements OnInit {
     let ptPerPx=72/96;
     return Math.floor( (ptPerPx*height)/Number(font));
   }
-
+  testtoggle(){
+    this.sidenavOpened=!this.sidenavOpened;
+  }
 
 }
