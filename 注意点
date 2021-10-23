@@ -130,3 +130,44 @@ workflowの.ymlファイルのoutput_locationにパスの位置を記述する�
 を実行すると、ローカルでビルドが実行され。(参考:https://angular.jp/start/start-deployment)
 アプリケーションのルートとなる箇所に'dist/<アプリケーション名>'で出力される。
 このパスをアプリケーションのパスとすればよいのかもしれない
+
+'新しいライブラリを追加した際、Componentによってはエラーが発生する場合'
+ClipboardModuleを追加し、Clipboardを使用するためのpropertyをhtmlでタグに追加した場合下記のようなエラーが発生した
+
+[WDS] Errors while compiling. Reload prevented.
+(webpack)-dev-server/client:150
+src/app/example/example.component.html:1:9 - error NG8002: Can't bind to 'cdkCopyToClipboard' since it isn't a known property of 'button'.
+
+このエラーは新たに作ったComponentのみ発生しており、以前作ったComponentではなぜか発生しない。その相違より以下の点に問題があることを確認した。
+app.module.tsにて、以下のような設定になっていた。
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    MainComponent,
+    LoginComponent,
+    //ExampleComponent,  //←この実装がエラーが発生したComponentでは行われていなかった
+    NavigationBarComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    ClipboardModule     //←これが新規に使おうとしているライブラリの宣言
+  ],
+  exports:[
+    FormsModule,
+    ReactiveFormsModule
+
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+上記の通り、エラーが発生したComponentではdeclarationに設定がなかった。
+おそらくNgModule（Angularにて使用されいるhtmlTemplate）に宣言がないと、そのComponentでは以降のimport、exportで宣言されているライブラリが
+使用できないと考えられる

@@ -3,6 +3,7 @@ import {RouterOutputService} from '../service/router-output/router-output.servic
 import { MatDrawerMode } from '@angular/material/sidenav';
 import { Observable, Subscription } from 'rxjs';
 import {AppComponentOutputService} from '../service/appComponent/app-component-output.service'
+import {CalcWindowSize} from '../lib/CalcWindowSize'
 
 @Component({
   selector: 'app-main',
@@ -57,10 +58,15 @@ export class MainComponent implements OnInit {
       this.sidenavOpened = false;
       this.sidenavMode = 'over';
     }
-
+    let calcWindow=new CalcWindowSize(); 
+    let headerRow:number=calcWindow.rowNumberCalcByPixel(this.fontSize,this.lineHeight,200);
+    this.MinRows=(calcWindow.rowNumberCalc(this.fontSize,this.lineHeight)-headerRow).toString();
+    this.MaxRows=(calcWindow.rowNumberCalc(this.fontSize,this.lineHeight)-headerRow).toString();
+    /*
     let headerRow:number=this.rowNumberCalcByPixel(this.fontSize,this.lineHeight,200);
     this.MinRows=(this.rowNumberCalc(this.fontSize,this.lineHeight)-headerRow).toString();
     this.MaxRows=(this.rowNumberCalc(this.fontSize,this.lineHeight)-headerRow).toString();
+    */
   }
   /**
    * ブラウザ画面いっぱいの場合の行数を計算します

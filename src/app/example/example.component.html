@@ -1,6 +1,14 @@
+<h1>SpiceNetList例</h1>
+<p>例1</p>
+<label for="clipboard-example-textarea">Text to be copied</label>
+<textarea class="contentText" [style.font-size]="fontSize" [style.line-height]="lineHeight" matInput cdkTextareaAutosize
+  [cdkAutosizeMinRows]="MinRows" [cdkAutosizeMaxRows]="MaxRows" [(ngModel)]="value"></textarea>
+<!--
+<textarea id="clipboard-example-textarea" cols="30" rows="10" [(ngModel)]="value"></textarea>
+-->
+<button [cdkCopyToClipboard]="value">Copy to clipboard</button>
+<!--
 
-    <h1>SpiceNetList例</h1>
-    <p>例1</p>
     <p class="example">*
       D:\sakai\OneDrive\ドキュメント\LTspiceXVII\lib\sym\SpecialFunctions\CaseSurface.asc<br>
       XX1 test N001 heatresistancesurfacetooutsideair params: width=0.2
@@ -43,3 +51,4 @@
       .physicalTable DEN=0.0278<br>
       .backanno<br>
       .end</p>
+      -->
