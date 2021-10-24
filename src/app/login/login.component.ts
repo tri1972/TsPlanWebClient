@@ -77,6 +77,7 @@ export class LoginComponent implements OnInit {
         let loginUser: LoginUser
           = {
           user: this.loginForm.value.user,
+          password: this.loginForm.value.password,
           login: false,
         }
 
@@ -95,6 +96,7 @@ export class LoginComponent implements OnInit {
           var test=applConfig.loginTokenLimit ;
           localStorage.setItem('tokenlimit', String(Date.now() + applConfig.loginTokenLimit * 1000));
           localStorage.setItem('user',loginUser.user);
+          localStorage.setItem('pass',loginUser.password);
           localStorage.setItem('token',token);
 
           //this.accountService.setId(loginUser.user);

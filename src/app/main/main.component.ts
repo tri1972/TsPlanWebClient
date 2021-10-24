@@ -6,6 +6,9 @@ import {AppComponentOutputService} from '../service/appComponent/app-component-o
 import {CalcWindowSize} from '../lib/CalcWindowSize'
 import {MatDialog} from '@angular/material/dialog';
 import { WarningDialog } from '../lib/waringDialog/WarningDialog'
+import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
+import { AccountService, Configuration, RegisterAccount, TsService } from '../tsplanApi';
+import {TsPlanService } from '../service/tsPlan/ts-plan.service'
 
 @Component({
   selector: 'app-main',
@@ -33,7 +36,9 @@ export class MainComponent implements OnInit {
       ngZone: NgZone,
       private routerService: RouterOutputService,
       private appComponetService: AppComponentOutputService,
-      private dialog: MatDialog
+      private dialog: MatDialog,
+      private httpInstance:HttpClient,
+      private http: HttpClient
     ) {
     window.onresize = (e) => {
       ngZone.run(() => {
@@ -107,8 +112,21 @@ export class MainComponent implements OnInit {
     }
   }
 
-  calculation(){
-    
+  calculation(spiceNetList:string) {
+
+    try {
+      let calcServerService: TsPlanService = new TsPlanService();
+      //swaggerApi使用
+      let username = localStorage.getItem('user');
+      let password = localStorage.getItem('pass');
+      let basePath = 'https://tsplanning.azurewebsites.net';
+      let token:string=localStorage.getItem('token');
+      
+      calcServerService.CallTsPost(this.httpInstance,username,password,basePath,token, spiceNetList);
+    }
+    catch (err) {
+      console.log(err);
+    }
   }
 
   showCircuitNetwork(){
