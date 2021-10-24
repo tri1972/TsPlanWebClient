@@ -12,7 +12,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
-import {MatMenuModule} from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
@@ -21,9 +22,9 @@ import {MatMenuModule} from '@angular/material/menu';
   imports: [
     CommonModule,
   ],
-  exports:[
+  exports: [
     MatSliderModule,
-    
+
     MatButtonModule,
     MatListModule,
     MatSidenavModule,
@@ -34,6 +35,7 @@ import {MatMenuModule} from '@angular/material/menu';
     MatCardModule,
     MatInputModule,
     MatMenuModule,
+    MatDialogModule ,
   ]
 })
 export class MaterialModule { }

@@ -44,3 +44,12 @@ Input,Outputを使う
 sideNavigationのOnOffをhtmlだけで実装する方法をとるのではなく、（よく例には挙げられているがこの方法だと動的に実行するのは不可）
 コードを介してOnOffする方法
 https://stackoverflow.com/questions/58852134/how-to-toggle-angular-material-sidenav-in-component
+
+Angular MaterialのDiaglogを使った時のまとめ
+https://qiita.com/someone7140/items/96a1c9eec7ddd89e1b22
+
+Angularのページ遷移時に現在のURLのPathを取得する
+https://qiita.com/SuyamaDaichi/items/785263a227cba638024a
+
+ブラウザのローカルストレージの削除方法
+https://doc.arcgis.com/ja/power-bi/get-started/clear-browser-storage.htm

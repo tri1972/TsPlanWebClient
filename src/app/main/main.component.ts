@@ -4,6 +4,8 @@ import { MatDrawerMode } from '@angular/material/sidenav';
 import { Observable, Subscription } from 'rxjs';
 import {AppComponentOutputService} from '../service/appComponent/app-component-output.service'
 import {CalcWindowSize} from '../lib/CalcWindowSize'
+import {MatDialog} from '@angular/material/dialog';
+import { WarningDialog } from '../lib/waringDialog/WarningDialog'
 
 @Component({
   selector: 'app-main',
@@ -26,14 +28,20 @@ export class MainComponent implements OnInit {
   Obs:Observable<boolean>;
   Subs:Subscription;
 
-  constructor(ngZone:NgZone,private routerService :RouterOutputService,private appComponetService:AppComponentOutputService) {
+  constructor
+    (
+      ngZone: NgZone,
+      private routerService: RouterOutputService,
+      private appComponetService: AppComponentOutputService,
+      private dialog: MatDialog
+    ) {
     window.onresize = (e) => {
       ngZone.run(() => {
         this.handleResizeWindow(window.innerWidth);
       })
     }
   }
-   
+
   ngOnInit(): void {
     this.handleResizeWindow(window.innerWidth);
     this.routerService.isHiddenTitleAndSideMenu.next(true);
@@ -97,5 +105,14 @@ export class MainComponent implements OnInit {
     if (this.Subs) {
       this.Subs.unsubscribe();
     }
+  }
+
+  calculation(){
+    
+  }
+
+  showCircuitNetwork(){
+    let warningDialog=new WarningDialog(this.dialog);
+    warningDialog.Open('警告','未実装です');
   }
 }

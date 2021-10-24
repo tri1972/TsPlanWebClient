@@ -7,7 +7,7 @@ import { LoginService } from '../service/login/login.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import applConfig from '../../ApplicationConfig.json'
-import { AccountDataService} from '../service/accoutData/account-data.service'
+//import { AccountDataService} from '../service/accoutData/account-data.service'
 import {RouterOutputService} from '../service/router-output/router-output.service'
 
 
@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute, 
     private loginService: LoginService, 
     private fb: FormBuilder,
-    private accountService:AccountDataService,
+    //private accountService:AccountDataService,
     private routerService :RouterOutputService) { }
 
   ngOnInit(): void {
@@ -97,8 +97,8 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('user',loginUser.user);
           localStorage.setItem('token',token);
 
-          this.accountService.setId(loginUser.user);
-          this.accountService.setToken(token);
+          //this.accountService.setId(loginUser.user);
+          //this.accountService.setToken(token);
           //ログインページを呼び出した元へ戻る
           this.router.navigateByUrl(this.strNextPage);
         } else {

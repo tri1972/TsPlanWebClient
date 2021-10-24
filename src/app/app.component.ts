@@ -1,10 +1,11 @@
 import { Component, OnInit, NgZone, Output } from '@angular/core';
-import { MatDrawerMode } from '@angular/material/sidenav';
 import { Observable, Subscription } from 'rxjs';
-import {AccountDataService} from './service/accoutData/account-data.service';
-import {RouterOutputService} from './service/router-output/router-output.service'
+import { AccountDataService } from './service/accoutData/account-data.service';
+import { RouterOutputService } from './service/router-output/router-output.service'
 
-import {AppComponentOutputService} from './service/appComponent/app-component-output.service'
+import { AppComponentOutputService } from './service/appComponent/app-component-output.service'
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -16,28 +17,52 @@ export class AppComponent implements OnInit {
 
   showFiller = false;
   isExpanded = false;
-  isHiddenMenu:boolean;
-  isDisplayMenu:string;
-  user='test';
+  isHiddenMenu: boolean;
+  isDisplayMenu: string;
+  user = 'test';
 
+  hiddenPath: string[] = ['login'];
+  hidden: boolean;
   /**
    * 各RoutingComponetからのバインディング用変数
    */
-  Obs:Observable<boolean>;
-  Subs:Subscription;
+  Obs: Observable<boolean>;
+  Subs: Subscription;
   /**
    * SideNavのOpen切り替え
    */
-  isToggleSideNav:boolean=false;
+  isToggleSideNav: boolean = false;
 
   /**
    * コンストラクタ
    * @param ngZone 
    */
-  constructor(private ngZone: NgZone,private accountData:AccountDataService,private routerService:RouterOutputService,private appOutputServece:AppComponentOutputService) {
-  } 
+  constructor
+    (
+      private ngZone: NgZone,
+      private accountData: AccountDataService,
+      private routerService: RouterOutputService,
+      private appOutputServece: AppComponentOutputService,
+      public router: Router
+    ) {
+  }
 
   ngOnInit(): void {
+
+    this.router.events.pipe(
+      filter(f => f instanceof NavigationEnd)
+    )
+      .subscribe((s: any) => {
+        this.hidden = this.hiddenPath.some(e => s.url.includes(e));
+
+        if (this.hidden) {
+          this.isDisplayMenu = "none";
+        } else {
+          this.isDisplayMenu = "block";
+        }
+      });
+    /*
+
     this.user  = localStorage.getItem('user');
     this.Obs =this.routerService.IsHiddenTitleAndSideMenu$;
     this.Subs=this.Obs.subscribe(bool=>{
@@ -46,22 +71,17 @@ export class AppComponent implements OnInit {
       }else{
         this.isDisplayMenu="none";
       }
-      /*
-      if(bool){
-        this.isHiddenMenu=false;
-      }else{
-        this.isHiddenMenu=true;
-      }*/
     })
+    */
   }
 
   /**
    * Menuボタンクリックイベントハンドラ
    */
-  onClickMenuButton(){
-    this.isToggleSideNav=true;
+  onClickMenuButton() {
+    this.isToggleSideNav = true;
     this.appOutputServece.isOpenSideNav.next(this.isToggleSideNav);
-    this.isToggleSideNav=false;
+    this.isToggleSideNav = false;
   }
 
   ngOnDestroy() {
