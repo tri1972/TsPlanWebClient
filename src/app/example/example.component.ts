@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {CalcWindowSize} from '../lib/CalcWindowSize'
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {SnackbarCopyClipboardComponent} from './SnackbarCopyClipboardComponent'
 
 @Component({
   selector: 'app-example',
@@ -52,7 +54,7 @@ MaxRows:string;
 fontSize="8pt";
 lineHeight="1.2";
 
-  constructor()
+  constructor(private _snackBar: MatSnackBar)
   {
   }
 
@@ -62,6 +64,12 @@ lineHeight="1.2";
     let headerRow:number=calcWindow.rowNumberCalcByPixel(this.fontSize,this.lineHeight,200);
     this.MinRows=(calcWindow.rowNumberCalc(this.fontSize,this.lineHeight)-headerRow).toString();
     this.MaxRows=(calcWindow.rowNumberCalc(this.fontSize,this.lineHeight)-headerRow).toString();
+  }
+
+  openSnackBar() {
+    this._snackBar.openFromComponent(SnackbarCopyClipboardComponent, {
+      duration: 1 * 1000,
+    });
   }
 
 }

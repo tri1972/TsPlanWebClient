@@ -1,6 +1,7 @@
 <h1>SpiceNetList例</h1>
 <p>例1</p>
 <label for="clipboard-example-textarea">Text to be copied</label>
+<br>
+<button [cdkCopyToClipboard]="value" (click)="openSnackBar()" >Copy to clipboard</button>
 <textarea class="contentText" [style.font-size]="fontSize" [style.line-height]="lineHeight" matInput cdkTextareaAutosize
   [cdkAutosizeMinRows]="MinRows" [cdkAutosizeMaxRows]="MaxRows" [(ngModel)]="value"></textarea>
-<button [cdkCopyToClipboard]="value">Copy to clipboard</button>
