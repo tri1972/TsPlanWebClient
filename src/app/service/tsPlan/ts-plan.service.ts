@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
 import { AccountService, Configuration, RegisterAccount, TsService } from '../../tsplanApi';
 import {outputContainer} from './outputConteiner'
+import { Observable, observable } from 'rxjs';
 
+import { TsCalcContainerSpiceList } from '../../tsplanApi/model/tsCalcContainerSpiceList';
+//      /model/tsCalcContainerSpiceList
 @Injectable({
   providedIn: 'root'
 })
@@ -21,7 +24,7 @@ export class TsPlanService {
    * @param spiceNetList SpiceNetList文字列
    * @returns 
    */
-  public async CallTsPost(httpService: HttpClient,userName:string,password:string,pathCalculationServer:string, token: string, spiceNetList: string):Promise< outputContainer> {
+  public  CallTsPost(httpService: HttpClient,userName:string,password:string,pathCalculationServer:string, token: string, spiceNetList: string):Observable< TsCalcContainerSpiceList> {
     var outputData=new outputContainer();
     var configTsPost = new Configuration();
     configTsPost.username = userName;
@@ -36,9 +39,10 @@ export class TsPlanService {
       temperature: [40]
     };
     var instance
-      = await new TsService(httpService, null, configTsPost);
+      = new TsService(httpService, null, configTsPost);
 
-    await instance.apiTsSpiceNetListPost(bodyTsSpiceNetListPost, 'body', true)
+    return instance.apiTsSpiceNetListPost(bodyTsSpiceNetListPost, 'body', true)
+    /*
       .subscribe(
         (x)=>{
           console.log('Current Position: ', x);
@@ -49,11 +53,10 @@ export class TsPlanService {
             tmpData.nodeNumber=i;
             this.containerParent.push(tmpData);
           }
+          return
           //this.parentData=true;
         }
       );
-    return await new Promise((resolve)=>{
-      resolve(outputData)
-    })
+      */
   }
 }

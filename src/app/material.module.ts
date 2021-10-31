@@ -14,6 +14,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatTableModule} from '@angular/material/table';
 
 
 
@@ -36,6 +37,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatInputModule,
     MatMenuModule,
     MatDialogModule ,
+    MatTableModule
   ]
 })
 export class MaterialModule { }

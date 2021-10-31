@@ -1,4 +1,4 @@
-import { Component, OnInit,NgZone } from '@angular/core';
+import { Component, OnInit,NgZone , ViewChild} from '@angular/core';
 import {RouterOutputService} from '../service/router-output/router-output.service'
 import { MatDrawerMode } from '@angular/material/sidenav';
 import { Observable, Subscription } from 'rxjs';
@@ -7,8 +7,23 @@ import {CalcWindowSize} from '../lib/CalcWindowSize'
 import {MatDialog} from '@angular/material/dialog';
 import { WarningDialog } from '../lib/waringDialog/WarningDialog'
 import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
-import { AccountService, Configuration, RegisterAccount, TsService } from '../tsplanApi';
 import {TsPlanService } from '../service/tsPlan/ts-plan.service'
+import {MatTable} from '@angular/material/table';
+import { identifierModuleUrl } from '@angular/compiler';
+
+/*Tableテスト用実装 */
+export interface PeriodicElement {
+  name: string;
+  position: number;
+  temperature: number;
+}
+
+const ELEMENT_DATA: PeriodicElement[] = [
+  {position: 1, name: 'new', temperature: 1.0079}
+];
+
+/*Tableテスト用実装ここまで*/
+
 
 @Component({
   selector: 'app-main',
@@ -16,6 +31,15 @@ import {TsPlanService } from '../service/tsPlan/ts-plan.service'
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+
+  /*Tableテスト用実装 */
+
+  displayedColumns: string[] = ['position', 'name', 'temperature'];
+  dataSource = [...ELEMENT_DATA];
+  //dataSource:PeriodicElement = [...ELEMENT_DATA];//この...はスプレッド変数と呼ばれる。ここではdatasourceにELEMENTのクローン(shallow copy)を与えている
+  @ViewChild(MatTable) table: MatTable<PeriodicElement>;//template側のMatTableクラスインスタンスを参照する
+  /*Tableテスト用実装ここまで*/
+
   MinRows:string;
   MaxRows:string;
 
@@ -112,17 +136,34 @@ export class MainComponent implements OnInit {
     }
   }
 
-  calculation(spiceNetList:string) {
-
+  calculation(spiceNetList: string) {
     try {
-      let calcServerService: TsPlanService = new TsPlanService();
-      //swaggerApi使用
-      let username = localStorage.getItem('user');
-      let password = localStorage.getItem('pass');
-      let basePath = 'https://tsplanning.azurewebsites.net';
-      let token:string=localStorage.getItem('token');
-      
-      calcServerService.CallTsPost(this.httpInstance,username,password,basePath,token, spiceNetList);
+      if (spiceNetList != '') {
+        let calcServerService: TsPlanService = new TsPlanService();
+        //swaggerApi使用
+        let username = localStorage.getItem('user');
+        let password = localStorage.getItem('pass');
+        let basePath = 'https://tsplanning.azurewebsites.net';
+        let token: string = localStorage.getItem('token');
+
+        calcServerService.CallTsPost(this.httpInstance, username, password, basePath, token, spiceNetList)
+          .subscribe((x) => {
+            console.log('Current Position: ', x);
+            this.dataSource=new Array;
+            for (var i = 0; i < x.temperature.length; i++) {
+              let tmpdata: PeriodicElement = {
+                name: i.toString(),
+                position: i,
+                temperature: x.temperature[i]
+              }
+              this.dataSource.push(tmpdata);
+            }
+            this.table.renderRows();//tableの再描画
+          });
+      } else {
+        let warningDialog = new WarningDialog(this.dialog);
+        warningDialog.Open('警告', 'TextAreaにSpiceNetList文字列が入力されていません');
+      }
     }
     catch (err) {
       console.log(err);

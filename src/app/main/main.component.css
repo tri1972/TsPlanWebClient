@@ -25,3 +25,7 @@ mat-form-field.sidenav-content{
 .contentText{
   font-size: 48pt;
 }
+
+table {
+  width: 100%;
+}
