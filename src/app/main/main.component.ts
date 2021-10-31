@@ -51,6 +51,13 @@ export class MainComponent implements OnInit {
   sidenavOpened:boolean;
   showFiller = false;
 
+  //計算中watispinを表示
+  blnLoading: boolean = false;
+  strLoadingMsg: string = "計算中です";
+  
+  //tableの表示
+  isTableLoad:boolean=false;
+  
   //AppComponentとのバインディング用
   Obs:Observable<boolean>;
   Subs:Subscription;
@@ -105,30 +112,6 @@ export class MainComponent implements OnInit {
     this.MaxRows=(this.rowNumberCalc(this.fontSize,this.lineHeight)-headerRow).toString();
     */
   }
-  /**
-   * ブラウザ画面いっぱいの場合の行数を計算します
-   * @param fontSize Styleから取得したフォントサイズ(pt)
-   * @param lineHeight Styleから取得した行高
-   * @returns 行数
-   */
-  rowNumberCalc(fontSize:string,lineHeight:string):number
-  {
-    return this.rowNumberCalcByPixel(fontSize,lineHeight,window.innerHeight);
-  }
-
-  /**
-   * pixelよりブラウザいっぱいの場合の行数を計算します
-   * @param fontSize  Styleから取得したフォントサイズ(pt)
-   * @param lineHeight  Styleから取得した行高
-   * @param numberPixel 
-   * @returns 行数 
-   */
-  rowNumberCalcByPixel(fontSize:string,lineHeight:string,numberPixel:number):number{
-    let font=fontSize.replace(/[pt]+/,"");
-    let height=numberPixel*Number(lineHeight);
-    let ptPerPx=72/96;
-    return Math.floor( (ptPerPx*height)/Number(font));
-  }
   
   ngOnDestroy() {
     if (this.Subs) {
@@ -136,9 +119,11 @@ export class MainComponent implements OnInit {
     }
   }
 
-  calculation(spiceNetList: string) {
+  async calculation(spiceNetList: string) {
     try {
       if (spiceNetList != '') {
+        //Wait画面の表示
+        this.blnLoading = true;
         let calcServerService: TsPlanService = new TsPlanService();
         //swaggerApi使用
         let username = localStorage.getItem('user');
@@ -149,6 +134,7 @@ export class MainComponent implements OnInit {
         calcServerService.CallTsPost(this.httpInstance, username, password, basePath, token, spiceNetList)
           .subscribe((x) => {
             console.log('Current Position: ', x);
+            this.isTableLoad=true;
             this.dataSource=new Array;
             for (var i = 0; i < x.temperature.length; i++) {
               let tmpdata: PeriodicElement = {
@@ -158,6 +144,7 @@ export class MainComponent implements OnInit {
               }
               this.dataSource.push(tmpdata);
             }
+            this.blnLoading = false;
             this.table.renderRows();//tableの再描画
           });
       } else {

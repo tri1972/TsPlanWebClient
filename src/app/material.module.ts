@@ -14,7 +14,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 
@@ -36,8 +37,9 @@ import {MatTableModule} from '@angular/material/table';
     MatCardModule,
     MatInputModule,
     MatMenuModule,
-    MatDialogModule ,
-    MatTableModule
+    MatDialogModule,
+    MatTableModule,
+    MatTooltipModule
   ]
 })
 export class MaterialModule { }
