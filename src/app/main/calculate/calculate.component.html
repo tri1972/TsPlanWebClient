@@ -1,0 +1,48 @@
+<!--サイドメニューのコンテンツ-->
+<!--Change size of textarea 参考　https://stackoverflow.com/questions/47147507/change-size-of-textarea-->
+<button mat-icon-button class="example-icon favorite-icon" aria-label="Copy Model Source"
+    (click)="calculation(data.value)" matTooltip="計算実行">
+    <mat-icon matListIcon>directions_run</mat-icon>
+</button>Calculate
+<mat-form-field class="sidenav-content" appearance="outline">
+    <mat-label>Textarea</mat-label>
+    <textarea class="contentText" placeholder="NetListを入力してください" [style.font-size]="fontSize"
+        [style.line-height]="lineHeight" matInput cdkTextareaAutosize [cdkAutosizeMinRows]="MinRows"
+        [cdkAutosizeMaxRows]="MaxRows" #data></textarea>
+    <div *ngIf="isTableLoad" class="calculateTable">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+            <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef> No. </th>
+                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="temperature">
+                <th mat-header-cell *matHeaderCellDef> temperature </th>
+                <td mat-cell *matCellDef="let element"> {{element.temperature}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+</mat-form-field>
+
+<!-- 処理中の画面 -->
+<div [hidden]="!blnLoading" class="loading">
+  <div class="loading-inner">
+    <mat-spinner></mat-spinner>
+    {{strLoadingMsg}}
+  </div>
+</div>

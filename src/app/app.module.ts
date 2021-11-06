@@ -4,6 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
+import { CalculateComponent } from './main/calculate/calculate.component'
+import { NetworkComponent } from './main/network/network.component'
 import { ExampleComponent } from './example/example.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
@@ -20,6 +22,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   declarations: [
     AppComponent,
     MainComponent,
+    CalculateComponent,
+    NetworkComponent,
     LoginComponent,
     ExampleComponent,
     NavigationBarComponent,
