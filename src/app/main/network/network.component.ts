@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild  } from '@angular/core';
 import { Data } from '@angular/router';
-import { Network, DataSet} from 'vis';
+import {  Network, NodeOptions, EdgeOptions, Color, Node, Edge, Options,DataSet} from 'vis';
 import {CalculateResultService} from '../../service/CalculateResult/calculate-result.service'
 
 
@@ -28,19 +28,26 @@ export class NetworkComponent implements OnInit {
   * https://stackoverflow.com/questions/51418587/how-to-make-network-visualization-work-in-vis-js-with-angular
   */
  @ViewChild('network') el: ElementRef;
- private networkInstance: any;
+ private networkInstance: Network;
 
   ngAfterViewInit() {
     const container = this.el.nativeElement;
     let nodes: DataSet<any>;
     let edges: DataSet<any>;
     let element:elementType = this.calcResult.getCalculateResult().element;
-   
+    
+    Object.entries(element).forEach(([key, value]) => {
+      console.log(key);
+      console.log(value);
+    });
+    
+    /*
     Object.keys(element).forEach((key)=>{
       Object.keys(key).forEach((x)=>{
         let number=x;
       })
     })
+    */
     element.length
     if (this.isCalculated) {
 
@@ -61,10 +68,10 @@ export class NetworkComponent implements OnInit {
         { from: 2, to: 5 }
       ]);
     }
-   
+    nodes.add( { id: 6, label: 'Node 6' })
     const data = { nodes, edges };
 
     this.networkInstance = new Network(container, data, {});
- }
+  }
 
 }
