@@ -23,7 +23,12 @@
       "dom"
     ],
     "noImplicitAny" : false,
-    "strictNullChecks":false
+    "strictNullChecks":false,
+    "paths": {
+      "crypto": [
+        "../../node_modules/crypto-js"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

@@ -7,6 +7,7 @@ import {TsPlanService } from '../../service/tsPlan/ts-plan.service'
 import {MatTable} from '@angular/material/table';
 import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
 import {CalcWindowSize} from '../../lib/CalcWindowSize'
+import {CalculateResultService} from '../../service/CalculateResult/calculate-result.service'
 
 
 /*Tableテスト用実装 */
@@ -59,6 +60,7 @@ export class CalculateComponent implements OnInit {
     private ngZone: NgZone,
     private dialog: MatDialog,
     private httpInstance:HttpClient,
+    private calcResult:CalculateResultService
   ) 
   { 
   }
@@ -93,6 +95,9 @@ export class CalculateComponent implements OnInit {
         calcServerService.CallTsPost(this.httpInstance, username, password, basePath, token, spiceNetList)
           .subscribe((x) => {
             console.log('Current Position: ', x);
+            
+            this.calcResult.calculateResult=x;//計算結果をServiceに渡す
+
             this.isTableLoad=true;
             this.dataSource=new Array;
             for (var i = 0; i < x.temperature.length; i++) {

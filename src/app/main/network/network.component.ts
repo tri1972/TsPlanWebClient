@@ -1,5 +1,14 @@
 import { Component, OnInit, ElementRef, ViewChild  } from '@angular/core';
-import { Network, DataSet } from 'vis';
+import { Data } from '@angular/router';
+import { Network, DataSet} from 'vis';
+import {CalculateResultService} from '../../service/CalculateResult/calculate-result.service'
+
+
+interface elementType{
+  [key: string]: { 
+    [key: string]: number
+  }
+}
 
 @Component({
   selector: 'app-network',
@@ -8,7 +17,10 @@ import { Network, DataSet } from 'vis';
 })
 export class NetworkComponent implements OnInit {
 
-  constructor() { }
+  private isCalculated:boolean;
+  constructor(private calcResult:CalculateResultService) { 
+    this.isCalculated=false;
+  }
 
   ngOnInit(): void {
   } /**
@@ -18,25 +30,41 @@ export class NetworkComponent implements OnInit {
  @ViewChild('network') el: ElementRef;
  private networkInstance: any;
 
- ngAfterViewInit() {
+  ngAfterViewInit() {
     const container = this.el.nativeElement;
-    const nodes = new DataSet<any>([
-       {id: 1, label: 'Node 1'},
-       {id: 2, label: 'Node 2'},
-       {id: 3, label: 'Node 3'},
-       {id: 4, label: 'Node 4'},
-       {id: 5, label: 'Node 5'}
-   ]);
+    let nodes: DataSet<any>;
+    let edges: DataSet<any>;
+    let element:elementType = this.calcResult.getCalculateResult().element;
+   
+    Object.keys(element).forEach((key)=>{
+      Object.keys(key).forEach((x)=>{
+        let number=x;
+      })
+    })
+    element.length
+    if (this.isCalculated) {
 
-   const edges = new DataSet<any>([
-       {from: 1, to: 3},
-       {from: 1, to: 2},
-       {from: 2, to: 4},
-       {from: 2, to: 5}
-   ]);
-   const data = { nodes, edges };
+    }
+    else {
+      nodes = new DataSet<any>([
+        { id: 1, label: 'Node 1' },
+        { id: 2, label: 'Node 2' },
+        { id: 3, label: 'Node 3' },
+        { id: 4, label: 'Node 4' },
+        { id: 5, label: 'Node 5' }
+      ]);
+      
+      edges = new DataSet<any>([
+        { from: 1, to: 3 },
+        { from: 1, to: 2 },
+        { from: 2, to: 4 },
+        { from: 2, to: 5 }
+      ]);
+    }
+   
+    const data = { nodes, edges };
 
-   this.networkInstance = new Network(container, data, {});
+    this.networkInstance = new Network(container, data, {});
  }
 
 }

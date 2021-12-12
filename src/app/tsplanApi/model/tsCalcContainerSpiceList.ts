@@ -12,11 +12,19 @@
 
 export interface TsCalcContainerSpiceList { 
     /**
-     * SpiceNetList文字列を取得または設定します
+     * SpiceNetList文字列を設定します
      */
     spiceNetList?: string;
     /**
-     * 計算温度を取得または設定します
+     * 計算温度を取得します
      */
-    temperature?: Array<number>;
+    readonly temperature?: Array<number>;
+    /**
+     * Node名＋計算温度を取得します
+     */
+    readonly nodeTempareture?: { [key: string]: number; };
+    /**
+     * 計算要素と熱コンダクタンスを取得します  値が設定されていない（Keyがない）要素についてはコンダクタンスが0となります
+     */
+    readonly element?: { [key: string]: { [key: string]: number; }; };
 }

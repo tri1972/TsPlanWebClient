@@ -171,3 +171,12 @@ export class AppModule { }
 上記の通り、エラーが発生したComponentではdeclarationに設定がなかった。
 おそらくNgModule（Angularにて使用されいるhtmlTemplate）に宣言がないと、そのComponentでは以降のimport、exportで宣言されているライブラリが
 使用できないと考えられる
+
+
+'javascriptPackcageをTypeScriptで使う場合'
+下記はcrypt-jsをインストールした場合
+>npm install crypto-js
+上記で本体をローカルプロジェクトにインストールする
+
+>npm i --save-dev @types/crypto-js
+上記でTypescriptの型情報のインストールを行う
