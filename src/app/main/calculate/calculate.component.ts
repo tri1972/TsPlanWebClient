@@ -100,14 +100,16 @@ export class CalculateComponent implements OnInit {
 
             this.isTableLoad=true;
             this.dataSource=new Array;
-            for (var i = 0; i < x.temperature.length; i++) {
+            let counter:number=0;
+            Object.entries(x.nodeTempareture).forEach(([key, value]) => {
               let tmpdata: PeriodicElement = {
-                name: i.toString(),
-                position: i,
-                temperature: x.temperature[i]
+                name: key,
+                position: counter,
+                temperature: value
               }
               this.dataSource.push(tmpdata);
-            }
+              counter++;
+            });
             this.blnLoading = false;
             this.table.renderRows();//tableの再描画
           });
