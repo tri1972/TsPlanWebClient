@@ -34,41 +34,35 @@ export class NetworkComponent implements OnInit {
     const container = this.el.nativeElement;
     let nodes: DataSet<any>;
     let edges: DataSet<any>;
-    let element:elementType = this.calcResult.getCalculateResult().element;
-    
-    Object.entries(element).forEach(([key, value]) => {
+
+    let calcNodes= this.calcResult.getCalculateResult().nodeTempareture;
+    let calcElement:elementType = this.calcResult.getCalculateResult().element;
+
+    let counter:number=0;
+    nodes=new DataSet<any>();
+    Object.entries(calcNodes).forEach(([key, value]) => {
+      nodes.add(
+        {id:counter,
+          label:key
+        }
+      )
+      counter++;
       console.log(key);
       console.log(value);
     });
-    
-    /*
-    Object.keys(element).forEach((key)=>{
-      Object.keys(key).forEach((x)=>{
-        let number=x;
-      })
-    })
-    */
-    element.length
-    if (this.isCalculated) {
 
-    }
-    else {
-      nodes = new DataSet<any>([
-        { id: 1, label: 'Node 1' },
-        { id: 2, label: 'Node 2' },
-        { id: 3, label: 'Node 3' },
-        { id: 4, label: 'Node 4' },
-        { id: 5, label: 'Node 5' }
-      ]);
-      
-      edges = new DataSet<any>([
-        { from: 1, to: 3 },
-        { from: 1, to: 2 },
-        { from: 2, to: 4 },
-        { from: 2, to: 5 }
-      ]);
-    }
-    nodes.add( { id: 6, label: 'Node 6' })
+    edges=new DataSet<any>();
+    Object.entries(calcElement).forEach(([key1, value]) => {
+      console.log(key1);
+      Object.entries(value).forEach(([key2, value])=>{
+        edges.add({
+          from:Number(key1),
+          to:Number(key2)
+        });
+        console.log(value);
+      }) 
+    });
+    
     const data = { nodes, edges };
 
     this.networkInstance = new Network(container, data, {});
