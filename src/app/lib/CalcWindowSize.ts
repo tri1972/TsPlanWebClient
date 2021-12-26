@@ -19,9 +19,10 @@ export class CalcWindowSize{
    */
   public rowNumberCalcByPixel(fontSize:string,lineHeight:string,numberPixel:number):number{
     let font=fontSize.replace(/[pt]+/,"");
-    let height=numberPixel*Number(lineHeight);
+    let height=numberPixel;//*Number(lineHeight);
     let ptPerPx=72/96;
-    return Math.floor( (ptPerPx*height)/Number(font));
+    let output=Math.floor( (ptPerPx*height)/Number(font));
+    return output;
   }
 
 

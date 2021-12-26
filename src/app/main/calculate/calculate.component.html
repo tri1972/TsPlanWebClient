@@ -4,11 +4,15 @@
     (click)="calculation(data.value)" matTooltip="計算実行">
     <mat-icon matListIcon>directions_run</mat-icon>
 </button>Calculate
+<button mat-icon-button color="primary" aria-label="Example icon button with a delete icon" (click)="resize()">
+    <mat-icon>delete</mat-icon>
+</button>
 <mat-form-field class="sidenav-content" appearance="outline">
     <mat-label>Textarea</mat-label>
     <textarea class="contentText" placeholder="NetListを入力してください" [style.font-size]="fontSize"
-        [style.line-height]="lineHeight" matInput cdkTextareaAutosize [cdkAutosizeMinRows]="MinRows"
-        [cdkAutosizeMaxRows]="MaxRows" #data></textarea>
+        [style.line-height]="lineHeight" matInput cdkTextareaAutosize [cdkTextareaAutosize]=true [cdkAutosizeMinRows]="MinRows"
+        [cdkAutosizeMaxRows]="MaxRows" #data>
+    </textarea>
     <div *ngIf="isTableLoad" class="calculateTable">
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 

@@ -122,4 +122,12 @@ export class CalculateComponent implements OnInit {
       console.log(err);
     }
   }
+
+  async resize(){
+    let calcWindow=new CalcWindowSize(); 
+    let headerRow:number=calcWindow.rowNumberCalcByPixel(this.fontSize,this.lineHeight,100);
+    this.MinRows=(calcWindow.rowNumberCalc(this.fontSize,this.lineHeight)-headerRow).toString();
+    this.MaxRows=(calcWindow.rowNumberCalc(this.fontSize,this.lineHeight)-headerRow).toString();
+
+  }
 }
