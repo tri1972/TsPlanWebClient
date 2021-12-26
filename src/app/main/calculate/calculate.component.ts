@@ -75,7 +75,7 @@ export class CalculateComponent implements OnInit {
    */
    handleResizeWindow(width: number){
     let calcWindow=new CalcWindowSize(); 
-    let headerRow:number=calcWindow.rowNumberCalcByPixel(this.fontSize,this.lineHeight,200);
+    let headerRow:number=calcWindow.rowNumberCalcByPixel(this.fontSize,this.lineHeight,300);
     this.MinRows=(calcWindow.rowNumberCalc(this.fontSize,this.lineHeight)-headerRow).toString();
     this.MaxRows=(calcWindow.rowNumberCalc(this.fontSize,this.lineHeight)-headerRow).toString();
   }

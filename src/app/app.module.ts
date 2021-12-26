@@ -17,6 +17,7 @@ import {ExplainComponent} from'./explain/explain.component'
 
 import { ClipboardModule } from '@angular/cdk/clipboard'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {FlexLayoutModule} from '@angular/flex-layout'
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    ClipboardModule
+    ClipboardModule,
+    FlexLayoutModule
   ],
   exports: [
     FormsModule,
