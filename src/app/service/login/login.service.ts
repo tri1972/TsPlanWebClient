@@ -16,8 +16,6 @@ export class LoginService {
 
   private loginUrl: string = 'http://localhost/login.php';
 
-  private salt: string = 'testesttest1';
-
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     withCredentials: true
@@ -59,18 +57,18 @@ export class LoginService {
     return key;
   }
 
-  async computeSystem_Security_CryptographyHMAC256(apiKey: string, apiSecret: string) {
-
-
-    let password = 'testtest';
-    this.salt = 'xrgB0wr6EqfeyR4rNV3YhQ==';
-    let calchash="pd0ASY6zS0tr/RqvdlXb3Tsl5vV9vjpKWPqG6tfx6LU=";
-
-    // 文字列をTyped Arrayに変換する。
+  /**
+   * PBKDF2形式により、passwordをHash化します
+   * @param password 
+   * @param salt 
+   */
+  async computeSystem_Security_CryptographyPBKDF2(password: string, salt: string) :Promise<any>{
+    // 文字列をTyped Arrayに変換する
     let passwordUint8Array =(new TextEncoder()).encode( window.btoa(password));
-    let base64salt=window.btoa(this.salt);
+    let base64salt=window.btoa(salt);
     let saltUint8Array = (new TextEncoder()).encode(base64salt);
     var encodedData = window.btoa(unescape(encodeURIComponent('こんにちは')));
+    return new Promise((resolve,reject) =>{
     /*
     let passwordUint8Array = (new TextEncoder()).encode(password);
     let saltUint8Array = (new TextEncoder()).encode(this.salt);
@@ -98,56 +96,17 @@ export class LoginService {
         512
       ).then((buffer) => {
         var bytes = new Uint8Array(buffer);
-        console.log(window.btoa(String.fromCharCode.apply(String, Array.from(bytes))));
-
-      });
-
-    });
-
-    /*
-    // 文字列をTyped Arrayに変換する。
-    let passwordUint8Array = (new TextEncoder()).encode(password);
-    let saltUint8Array=(new TextEncoder()).encode(this.salt);
-    // パスワードのハッシュ値を計算する。
-    await window.crypto.subtle.digest(
-      // ハッシュ値の計算に用いるアルゴリズム。
-      { name: 'SHA-256' },
-      passwordUint8Array
-    ).then((digest) => {
-      window.crypto.subtle.importKey(
-        'raw',
-        digest,
-        { name: 'PBKDF2' },
-        // 鍵のエクスポートを許可するかどうかの指定。falseでエクスポートを禁止する。
-        false,
-        // 鍵の用途。ここでは、「鍵の変換に使う」と指定している。
-        ['deriveBits']
-      ).then((keyMaterial) => {
-
-        // 乱数でsaltを作成する。
-        //let salt = window.crypto.getRandomValues(new Uint8Array(16));
-        window.crypto.subtle.deriveBits(
-          {
-            name: 'PBKDF2',
-            salt:saltUint8Array,
-            iterations: 10000, // ストレッチングの回数。
-            hash: 'SHA-512'
-          },
-          keyMaterial,
-          512
-        ).then((buffer) => {
-          var bytes = new Uint8Array(buffer);
-          console.log(window.btoa(String.fromCharCode.apply(String, Array.from(bytes))));
-
-        });
-
+        var output=window.btoa(String.fromCharCode.apply(String, Array.from(bytes)));
+        resolve(output);
+        })
       });
     });
-    */
   }
 
   login(strUser: string, strPassword: string): Observable<any> {
-    let hash = this.computeSystem_Security_CryptographyHMAC256(strPassword, this.salt);
+    let hash = this.computeSystem_Security_CryptographyPBKDF2(strPassword, strUser).then((res)=>{
+      console.log(res);
+    });
     console.log(hash);
     return this.postAuthPsPlanServer(strUser, strPassword);
     /*
