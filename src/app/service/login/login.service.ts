@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { observable, Observable } from 'rxjs';
+import { observable, Observable, Subscriber } from 'rxjs';
 import { LoginUser } from './interfaces/login-user';
 import { AuthParam } from '../auth-param';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -62,53 +62,63 @@ export class LoginService {
    * @param password 
    * @param salt 
    */
-  async computeSystem_Security_CryptographyPBKDF2(password: string, salt: string) :Promise<any>{
+  async computeSystem_Security_CryptographyPBKDF2(password: string, salt: string): Promise<any> {
     // 文字列をTyped Arrayに変換する
-    let passwordUint8Array =(new TextEncoder()).encode( window.btoa(password));
-    let base64salt=window.btoa(salt);
+    let passwordUint8Array = (new TextEncoder()).encode(window.btoa(password));
+    let base64salt = window.btoa(salt);
     let saltUint8Array = (new TextEncoder()).encode(base64salt);
-    var encodedData = window.btoa(unescape(encodeURIComponent('こんにちは')));
-    return new Promise((resolve,reject) =>{
-    /*
-    let passwordUint8Array = (new TextEncoder()).encode(password);
-    let saltUint8Array = (new TextEncoder()).encode(this.salt);
-    // パスワードのハッシュ値を計算する。
-    */
-    window.crypto.subtle.importKey(
-      'raw',
-      passwordUint8Array,
-      { name: 'PBKDF2' },
-      // 鍵のエクスポートを許可するかどうかの指定。falseでエクスポートを禁止する。
-      false,
-      // 鍵の用途。ここでは、「鍵の変換に使う」と指定している。
-      ['deriveBits']
-    ).then((keyMaterial) => {
-      // 乱数でsaltを作成する。
-      //let salt = window.crypto.getRandomValues(new Uint8Array(16));
-      window.crypto.subtle.deriveBits(
-        {
-          name: 'PBKDF2',
-          salt: saltUint8Array,
-          iterations: 10000, // ストレッチングの回数。
-          hash: 'SHA-512'
-        },
-        keyMaterial,
-        512
-      ).then((buffer) => {
-        var bytes = new Uint8Array(buffer);
-        var output=window.btoa(String.fromCharCode.apply(String, Array.from(bytes)));
-        resolve(output);
+    //var encodedData = window.btoa(unescape(encodeURIComponent('こんにちは')));
+    return new Promise((resolve, reject) => {
+      /*
+      let passwordUint8Array = (new TextEncoder()).encode(password);
+      let saltUint8Array = (new TextEncoder()).encode(this.salt);
+      // パスワードのハッシュ値を計算する。
+      */
+      window.crypto.subtle.importKey(
+        'raw',
+        passwordUint8Array,
+        { name: 'PBKDF2' },
+        // 鍵のエクスポートを許可するかどうかの指定。falseでエクスポートを禁止する。
+        false,
+        // 鍵の用途。ここでは、「鍵の変換に使う」と指定している。
+        ['deriveBits']
+      ).then((keyMaterial) => {
+        // 乱数でsaltを作成する。
+        //let salt = window.crypto.getRandomValues(new Uint8Array(16));
+        window.crypto.subtle.deriveBits(
+          {
+            name: 'PBKDF2',
+            salt: saltUint8Array,
+            iterations: 10000, // ストレッチングの回数。
+            hash: 'SHA-512'
+          },
+          keyMaterial,
+          512
+        ).then((buffer) => {
+          var bytes = new Uint8Array(buffer);
+          var output = window.btoa(String.fromCharCode.apply(String, Array.from(bytes)));
+          resolve(output);
         })
       });
     });
   }
 
-  login(strUser: string, strPassword: string): Observable<any> {
-    let hash = this.computeSystem_Security_CryptographyPBKDF2(strPassword, strUser).then((res)=>{
-      console.log(res);
+  /**
+   * ログインを実行
+   * @param strUser ユーザーID 
+   * @param strPassword ユーザーパスワード
+   * @returns 
+   */
+  public login(strUser: string, strPassword: string): Observable<any> 
+  {
+    return new Observable<any>((observer)=>{
+      this.computeSystem_Security_CryptographyPBKDF2(strPassword, strUser).then((res)=>{
+        console.log(res);
+        this.postAuthPsPlanServer(strUser, res).subscribe((data)=>{
+          observer.next(data);
+        });
+      });
     });
-    console.log(hash);
-    return this.postAuthPsPlanServer(strUser, strPassword);
     /*
     return new Observable<LoginUser>((observer) => {
       observer.next({ user: strUser, login: true });//ここでloginメンバをtrueで初期化すれば認証OK
@@ -121,6 +131,12 @@ export class LoginService {
     */
   }
 
+  /**
+   * 
+   * @param username ユーザーID 
+   * @param passwd パスワードハッシュ
+   * @returns 
+   */
   private postAuthPsPlanServer(username: string, passwd: string): Observable<any> {
     //swaggerApi使用
     let auth;

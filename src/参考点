@@ -54,13 +54,53 @@ https://qiita.com/SuyamaDaichi/items/785263a227cba638024a
 ブラウザのローカルストレージの削除方法
 https://doc.arcgis.com/ja/power-bi/get-started/clear-browser-storage.htm
 
-typescriptのスプレッド演算子について　...　という演算子がそれにあたる
+【typescriptのスプレッド演算子について　...　という演算子がそれにあたる】
 https://typescript-jp.gitbook.io/deep-dive/future-javascript/spread-operator
 https://qiita.com/akisx/items/682a4283c13fe336c547
 
-awaitできるsetTimeoutを1行で書く方法
+【awaitできるsetTimeoutを1行で書く方法】
 https://qiita.com/suin/items/99aa8641d06b5f819656
 
-routerを入れ子状に設定を行い、sideMENUとコンテンツの分離を行う方法
+【routerを入れ子状に設定を行い、sideMENUとコンテンツの分離を行う方法】
 https://www.l08084.com/entry/2019/10/27/192842
+
+【Promiseを返す関数で、入れ子にできる遅延処理を実装する方法】
+
+async computeSystem_Security_CryptographyPBKDF2(password: string, salt: string): Promise<any> 
+{
+    return new Promise((resolve, reject) => {
+      window.crypto.subtle.importKey( //←外部APIの呼び出し(時間がかかる処理)
+        処理A
+      ).then((data) => {
+        window.crypto.subtle.deriveBits() //←外部APIの呼び出し(時間がかかる処理)
+        処理B
+        .then((buffer) => {
+            処理C;//←この処理を実行した結果がほしい
+            resolve(output);
+        })
+    }
+}
+
+上記のようにPromiseチェーンがいくつか続く場合、最終的には処理Cにたどり着くまでに時間がかかるが、
+うかつにReturnでPromiseを返すようにしても、処理Cにたどり着く前に呼び出し元変数に返されて、処理がすっ飛ばされる。
+これを避けるためReturnを関数の先頭に置き、処理Cが実行された段階でresolveにて同期をとればよい
+/**
+呼び出し元関数
+*/
+  public login(strUser: string, strPassword: string): Observable<any> 
+  {
+    return new Observable<any>((observer)=>{//←いきなり呼ばれたreturnにて、ラムダ式を実行する
+      this.computeSystem_Security_CryptographyPBKDF2(strPassword, strUser).then((res)=>{ //←呼び出し元、thenでうければ、呼び出している関数のresolve関数の実行でこのthen内が実行される
+        this.postAuthPsPlanServer(strUser, strPassword).subscribe((data)=>{ //←こちらはObservation型のAPIが実行され、APIの実行が終わればdelta式内が実行される
+          observer.next(data); //←next関数の実行で、さらにこの関数の呼び出し元のsubscrive関数が実行される
+        });
+      });
+    });
+
+上記関数にて呼び出した関数の処理を行う。
+呼び出した関数のthen関数はもう一つ上の関数のresolveが実行されたときに呼び出される。
+またここのthen関数ではObservation型関数の非同期処理が行われ、呼び出しもとのSubscrive関数内が実行される。
+
+結論として、うまく非同期処理のチェーンをつなぐためには、関数の冒頭でいきなりreturnを呼び、Promise、Observation型の関数をnewしたものを返し、
+その後の処理は状況に応じてramuda式で処理を書いていけば、チェーンがうまくつながる
 
