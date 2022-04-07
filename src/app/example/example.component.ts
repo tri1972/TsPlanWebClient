@@ -9,7 +9,7 @@ import {SnackbarCopyClipboardComponent} from './SnackbarCopyClipboardComponent'
   styleUrls: ['./example.component.css']
 })
 export class ExampleComponent implements OnInit {
-value=`* D:\sakai\OneDrive\ドキュメント\LTspiceXVII\lib\sym\SpecialFunctions\CaseSurface.asc
+value=`* D:\sakai\OneDrive\ドキュメント\LTspiceXVII\lib\sym\SpecialFunctions\CaseSurface2.asc
 XX1 test N001 heatresistancesurfacetooutsideair params: width=0.2 depth=0.3 WindDirection=x PositionSurface=top VelocityWind=0.01 Radiation=0.85 ThermalResistance=0 PositiveNode=test
 XX2 N001 N002 heatresistancesurfacetoinside params: width=0.2 depth=0.3 thick=0.005 thermalConductivity=0.278
 R1 N003 N002 0.1
@@ -17,6 +17,7 @@ R2 N003 N002 0.18
 R3 0 N004 0.1
 B1 test 0 basetemperature=40 PositiveNode=test
 XX3 N003 N004 currentpole params: Value=2.3 PositiveNode=N003
+R4 N003 N001 100
 
 * block symbol definitions
 .subckt heatresistancesurfacetooutsideair INPUT OUTPUT
@@ -47,6 +48,7 @@ R1 N001 OUTPUT {PositiveNode}
 .physicalTable DEN=0.0278
 .backanno
 .end
+
 `
 MinRows:string;
 MaxRows:string;

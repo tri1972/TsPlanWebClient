@@ -22,8 +22,9 @@
         </div>
         <div fxFlex="10%" style="background-color: rgb(90, 89, 87)" fxLayoutAlign="end">
             <div class="example-button-container">
-                <button mat-mini-fab color="warn" aria-label="Example icon button with a filter list icon">
-                    <mat-icon>filter_list</mat-icon>
+                <button mat-mini-fab color="warn" aria-label="Example icon button with a filter list icon"
+                (click)="calculation(data.value)" matTooltip="計算実行">
+                    <mat-icon>autorenew</mat-icon>
                 </button>
             </div>
         </div>

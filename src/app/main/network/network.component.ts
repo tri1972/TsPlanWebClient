@@ -39,6 +39,8 @@ export class NetworkComponent implements OnInit {
     let calcElement:elementType = this.calcResult.getCalculateResult().element;
 
     let counter:number=0;
+    
+    console.log('nodes = new DataSet<any>([');
     nodes=new DataSet<any>();
     Object.entries(calcNodes).forEach(([key, value]) => {
       nodes.add(
@@ -46,22 +48,27 @@ export class NetworkComponent implements OnInit {
           label:key
         }
       )
+      console.log('{ id: '+counter+', label: \''+key+' },');
       counter++;
-      console.log(key);
-      console.log(value);
+      //console.log(key);
+      //console.log(value);
     });
+    console.log(']);');
 
+    console.log('edges = new DataSet<any>([');
     edges=new DataSet<any>();
     Object.entries(calcElement).forEach(([key1, value]) => {
-      console.log(key1);
+      //console.log(key1);
       Object.entries(value).forEach(([key2, value])=>{
         edges.add({
           from:Number(key1),
           to:Number(key2)
         });
-        console.log(value);
+        console.log('{ from: '+key1+', to: '+key2+' },')
+        //console.log(value);
       }) 
     });
+    console.log(']);');
     
     const data = { nodes, edges };
 
